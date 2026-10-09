@@ -11,7 +11,9 @@
 #SBATCH -e logs/gpu_check_%j.err
 
 cd $SLURM_SUBMIT_DIR
+module purge
 module load anaconda3
+source "$(conda info --base)/etc/profile.d/conda.sh"
 conda activate /storage/ice1/0/5/ityagi8/envs/fno-ert
 nvidia-smi
 python -c "import torch, neuralop; print(torch.__version__, torch.cuda.is_available(), neuralop.__version__)"
