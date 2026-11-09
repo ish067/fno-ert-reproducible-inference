@@ -79,3 +79,12 @@ def resolve_cfg(cfg):
     cfg['data']['eval_path'] = os.path.join(root, 'data', 'evalV.mat')
     cfg['data']['test_path'] = os.path.join(root, 'data', 'testV.mat')
     return cfg
+
+def resolve_cfg(cfg):
+    """Build data paths from FNO_ERT_DIR (default: ../FNO_ERT next to this repo); ignore paths stored in checkpoints."""
+    here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    root = os.path.abspath(os.path.expanduser(os.environ.get('FNO_ERT_DIR') or os.path.join(here, '..', 'FNO_ERT')))
+    cfg['data']['fno_ert_dir'] = root
+    cfg['data']['eval_path'] = os.path.join(root, 'data', 'evalV.mat')
+    cfg['data']['test_path'] = os.path.join(root, 'data', 'testV.mat')
+    return cfg
