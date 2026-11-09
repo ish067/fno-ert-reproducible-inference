@@ -10,7 +10,7 @@ ap.add_argument('--ckpt', default='outputs/fno_ert.pt')
 ap.add_argument('--pred', default='outputs/predictions.npz')
 a = ap.parse_args()
 ck = torch.load(a.ckpt, map_location='cpu', weights_only=False)
-cfg = ck['cfg']
+cfg = resolve_cfg(ck['cfg'])
 pred = torch.from_numpy(np.load(a.pred)['pred'])
 _, _, true = load_fields(cfg['data']['test_path'])
 assert pred.shape == true.shape, (pred.shape, true.shape)

@@ -11,6 +11,6 @@
 #SBATCH -e logs/gpu_check_%j.err
 
 cd $SLURM_SUBMIT_DIR
-PY=/storage/ice1/0/5/ityagi8/envs/fno-ert/bin/python
+PY=${FNO_ENV:-$HOME/scratch/envs/fno-ert}/bin/python
 nvidia-smi
-$PY -c "import torch, neuralop; print(torch.__version__, torch.cuda.is_available(), neuralop.__version__)"
+$PY -c "import torch; print(torch.__version__, torch.cuda.is_available())"

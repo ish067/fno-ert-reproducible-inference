@@ -61,3 +61,12 @@ def predict(model, x, n_sol, dev, bs=50):
         out = model(x[i:i+bs].to(dev)).squeeze(-1)
         outs.append(n_sol.decode(out).cpu())
     return torch.cat(outs)
+
+def resolve_cfg(cfg):
+    """Build data paths from FNO_ERT_DIR (default: ../FNO_ERT next to this repo); ignore paths stored in checkpoints."""
+    here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    root = os.path.abspath(os.path.expanduser(os.environ.get('FNO_ERT_DIR') or os.path.join(here, '..', 'FNO_ERT')))
+    cfg['data']['fno_ert_dir'] = root
+    cfg['data']['eval_path'] = os.path.join(root, 'data', 'evalV.mat')
+    cfg['data']['test_path'] = os.path.join(root, 'data', 'testV.mat')
+    return cfg

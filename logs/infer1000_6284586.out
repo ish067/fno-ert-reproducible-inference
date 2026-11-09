@@ -1,0 +1,64 @@
+---------------------------------------
+Begin Slurm Prolog: Oct-15-2026 16:01:56
+Job ID:    6284586
+User ID:   ityagi8
+Account:   coc
+Job name:  fno-infer-1000
+Partition: coc-gpu
+QOS:       coc-ice
+---------------------------------------
+Thu Oct 15 16:01:56 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 615.71.09              KMD Version: 615.71.09     CUDA UMD Version: 13.4     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A40                     On  |   00000000:25:00.0 Off |                    0 |
+|  0%   55C    P0             83W /  300W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+===== SMOKE TEST =====
+device: cuda NVIDIA A40
+checkpoint: outputs/fno_ert_1000ep.pt | best_epoch 978 | best_val_rel_l2 0.07770974934101105
+forward pass on 1 test sample: 0.158s
+PASS - output shape == (1, 40, 100, 1)
+PASS - output is finite (no NaN/Inf)
+PASS - decoded prediction has same shape as ground truth
+PASS - relative L2 error on this sample is < 1.0
+sample rel L2 error: 0.10724116861820221
+===== INFERENCE =====
+device NVIDIA A40 | test samples 1001 | input (1001, 40, 100, 2)
+SUMMARY {'device': 'NVIDIA A40', 'torch': '2.14.1+cu130', 'test_samples': 1001, 'batched_total_s': 0.2137904167175293, 'batched_ms_per_sample': 0.21357683987765164, 'single_sample_forward_ms': 1.5050745010375977, 'checkpoint': 'outputs/fno_ert_1000ep.pt', 'checkpoint_sha256': 'b580d5a182c766160d2b0a2b180dc222002928a2b35fbca3c53ae9b87c9d3a3c', 'test_file': '/storage/ice1/0/5/ityagi8/FNO_ERT/data/testV.mat', 'predictions': 'outputs/predictions.npz'}
+===== VALIDATION =====
+| metric | expected (paper) | observed |
+|---|---|---|
+| mean rel. L2 error | < 0.3 % | 20.57 % |
+| std of rel. error | < 5 % | 25.77 % |
+| median / p95 / max | n/a | 16.10 / 43.54 / 709.93 % |
+| trivial mean-field baseline | n/a | 94.57 % |
+PASS - predictions finite
+PASS - shape matches ground truth
+PASS - model error < 0.5 x trivial mean-field baseline (criterion set before running)
+Paper target met: False
+---------------------------------------
+Begin Slurm Epilog: Oct-15-2026 16:02:14
+Job ID:        6284586
+User ID:       ityagi8
+Account:       coc
+Job name:      fno-infer-1000
+Resources:     cpu=4,gres/gpu:a40=1,mem=16G,node=1
+Rsrc Used:     cput=00:01:12,vmem=0,walltime=00:00:18,mem=896876K,energy_used=0
+Partition:     coc-gpu
+QOS:           coc-ice
+Nodes:         atl1-1-01-005-9-0
+---------------------------------------

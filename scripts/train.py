@@ -9,7 +9,7 @@ def main():
     ap.add_argument('--epochs', type=int, default=None)
     ap.add_argument('--out', default='outputs/fno_ert.pt')
     a = ap.parse_args()
-    cfg = load_cfg(a.config); t = cfg['train']
+    cfg = resolve_cfg(load_cfg(a.config)); t = cfg['train']
     if a.epochs: t['epochs'] = a.epochs
     demo = setup_demo(cfg)
     torch.manual_seed(t['seed']); np.random.seed(t['seed'])

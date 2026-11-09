@@ -8,7 +8,7 @@ ap.add_argument('--ckpt', default='outputs/fno_ert.pt')
 ap.add_argument('--out', default='outputs/predictions.npz')
 a = ap.parse_args()
 ck = torch.load(a.ckpt, map_location='cpu', weights_only=False)
-cfg = ck['cfg']; demo = setup_demo(cfg)
+cfg = resolve_cfg(ck['cfg']); demo = setup_demo(cfg)
 dev = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 gpu = torch.cuda.get_device_name(0) if dev.type == 'cuda' else 'cpu'
 sync = (lambda: torch.cuda.synchronize()) if dev.type == 'cuda' else (lambda: None)
